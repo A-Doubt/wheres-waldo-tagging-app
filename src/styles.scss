@@ -2,6 +2,7 @@
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
+	list-style: none;
 }
 
 body {
@@ -10,4 +11,144 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+}
+
+a {
+	text-decoration: none;
+}
+
+header {
+	padding-left: 80px;
+	height: 10vh;
+	max-width: 100%;
+	width: 100vw;
+	background-color: red;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	h1 {
+		color: white;
+		font-size: 50px;
+	}
+	img {
+		height: 100%;
+	}
+
+	.header--link {
+		color: black;
+		font-size: 34px;
+		font-weight: 700;
+	}
+}
+main {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	h1 {
+		margin-top: 20px;
+	}
+}
+
+.choose-level {
+	margin-top: 50px;
+	display: flex;
+	gap: 30px;
+
+	@media only screen and (max-width: 1300px) {
+		flex-direction: column;
+	}
+
+	h3 {
+		text-align: center;
+		color: black;
+		font-size: 32px;
+		margin-bottom: 10px;
+	}
+
+	.level-tile {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		width: 450px;
+	}
+
+	.level-image {
+		height: 350px;
+		width: 450px;
+		object-fit: cover;
+	}
+
+	.characters {
+		padding: 6px 20px;
+		align-self: flex-start;
+		display: flex;
+
+		p {
+			font-size: 18px;
+		}
+		li {
+			font-size: 16px;
+			font-weight: 700;
+		}
+		.img-small {
+			width: 40px;
+		}
+	}
+}
+
+.game--page {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100vw;
+	max-width: 100%;
+	margin-bottom: 50px;
+
+	h1 {
+		margin: 10px 0 40px 10px;
+	}
+	li {
+		display: flex;
+		flex-direction: column;
+		text-align: center;
+		font-size: 26px;
+		font-weight: 700;
+	}
+	.img-small {
+		height: 200px;
+	}
+}
+.game--to-find {
+	display: flex;
+}
+
+.game-img {
+	width: 90%;
+}
+
+.popup {
+	border: 1px solid black;
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	width: 50px;
+	width: 100px;
+
+	img {
+		height: 50px;
+		width: auto;
+	}
+
+	button {
+		text-align: center;
+		background: white;
+		border: 2px solid black;
+		cursor: pointer;
+		&:hover {
+			border: 2px solid greenyellow;
+		}
+	}
 }
