@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import CharToFind from './CharToFind';
 import Popup from './Popup';
 
@@ -11,6 +11,8 @@ export default function Beach() {
 		wizard: false,
 	});
 	const [tileClicked, setTileClicked] = React.useState(null);
+	const [isWin, setIsWin] = React.useState(false);
+	const [gameLength, setGameLength] = React.useState(null);
 
 	function tag(e) {
 		setCoords({ x: e.pageX, y: e.pageY });
@@ -29,18 +31,52 @@ export default function Beach() {
 
 	function handleClick(value) {
 		setPopupVisible(false);
-		console.log('TILE CLICKED :', tileClicked);
-		console.log(value);
+
 		if (
 			value === 'waldo' && 
 			(475 < tileClicked.x && tileClicked.x < 500) && 
 			(450 < tileClicked.y && tileClicked.y < 525)
-		)
+		) {
 			setIsFound((prevIsFound) => {
 				return ({...prevIsFound, waldo: true})
 			})
-		console.log(isFound);
+		}
+		else if (value === 'odlaw' && 
+			(70 < tileClicked.x && tileClicked.x < 100) && 
+			(550 < tileClicked.y && tileClicked.y < 620)
+		) {
+			setIsFound((prevIsFound) => {
+				return ({...prevIsFound, odlaw: true})
+			})
+		}
+		else if (value === 'wizard' && 
+			(930 < tileClicked.x && tileClicked.x < 960) && 
+			(365 < tileClicked.y && tileClicked.y < 430)
+		) {
+			setIsFound((prevIsFound) => {
+				return ({...prevIsFound, wizard: true})
+			})
+		}
 	}
+
+	const gameStart = useRef(new Date().getTime());
+	const gameEnd = useRef(new Date().getTime());
+
+	React.useEffect(() => {
+		if (isWin) return;
+		if (isFound.waldo && isFound.odlaw && isFound.wizard) {
+			gameEnd.current = new Date().getTime();
+			console.log('GRATZ!');
+			setIsWin(true);
+		}
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [isFound]);
+
+	React.useEffect(() => {
+		setGameLength(parseFloat(((gameEnd.current - gameStart.current) / 1000).toFixed(2)));
+
+		console.log(gameLength);
+	}, [isWin, gameLength])
 
 	return (
 		<>
