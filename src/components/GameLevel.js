@@ -2,17 +2,18 @@ import React, { useRef } from 'react';
 import CharToFind from './CharToFind';
 import Popup from './Popup';
 
-export default function Beach() {
+export default function GameLevel(props) {
 	const [popupVisible, setPopupVisible] = React.useState(false);
 	const [coords, setCoords] = React.useState({ x: null, y: null });
 	const [isFound, setIsFound] = React.useState({
-		waldo: false,
-		odlaw: false,
+		waldo: true,
+		odlaw: true,
 		wizard: false,
 	});
 	const [tileClicked, setTileClicked] = React.useState(null);
 	const [isWin, setIsWin] = React.useState(false);
 	const [gameLength, setGameLength] = React.useState(null);
+	const [gratzPopupVisible, setGratzPopupVisible] = React.useState(false);
 
 	function tag(e) {
 		setCoords({ x: e.pageX, y: e.pageY });
@@ -26,6 +27,7 @@ export default function Beach() {
 			),
 		};
 		setTileClicked(gameTile);
+		console.log(gameTile);
 		setPopupVisible((prevState) => !prevState);
 	}
 
@@ -34,24 +36,24 @@ export default function Beach() {
 
 		if (
 			value === 'waldo' && 
-			(475 < tileClicked.x && tileClicked.x < 500) && 
-			(450 < tileClicked.y && tileClicked.y < 525)
+			(props.waldo.x1 < tileClicked.x && tileClicked.x < props.waldo.x2) && 
+			(props.waldo.y1 < tileClicked.y && tileClicked.y < props.waldo.y2)
 		) {
 			setIsFound((prevIsFound) => {
 				return ({...prevIsFound, waldo: true})
 			})
 		}
 		else if (value === 'odlaw' && 
-			(70 < tileClicked.x && tileClicked.x < 100) && 
-			(550 < tileClicked.y && tileClicked.y < 620)
+			(props.odlaw.x1 < tileClicked.x && tileClicked.x < props.odlaw.x2) && 
+			(props.odlaw.y1 < tileClicked.y && tileClicked.y < props.odlaw.y2)
 		) {
 			setIsFound((prevIsFound) => {
 				return ({...prevIsFound, odlaw: true})
 			})
 		}
 		else if (value === 'wizard' && 
-			(930 < tileClicked.x && tileClicked.x < 960) && 
-			(365 < tileClicked.y && tileClicked.y < 430)
+			(props.wizard.x1 < tileClicked.x && tileClicked.x < props.wizard.x2) && 
+			(props.wizard.y1 < tileClicked.y && tileClicked.y < props.wizard.y2)
 		) {
 			setIsFound((prevIsFound) => {
 				return ({...prevIsFound, wizard: true})
@@ -63,11 +65,13 @@ export default function Beach() {
 	const gameEnd = useRef(new Date().getTime());
 
 	React.useEffect(() => {
+		console.log(isFound);
 		if (isWin) return;
 		if (isFound.waldo && isFound.odlaw && isFound.wizard) {
 			gameEnd.current = new Date().getTime();
 			console.log('GRATZ!');
 			setIsWin(true);
+			setGratzPopupVisible(true);
 		}
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isFound]);
@@ -80,6 +84,12 @@ export default function Beach() {
 
 	return (
 		<>
+			{gratzPopupVisible && (
+				<>
+					<div className="game--win-popup">Congratulations!</div>
+					<p>You found all characters in {gameLength}s!</p>
+				</>
+			)}
 			<div className="game--page">
 				<h1>Characters to find:</h1>
 				<ul className="game--to-find">
@@ -88,7 +98,7 @@ export default function Beach() {
 					<CharToFind name="Wizard" />
 				</ul>
 				<img
-					src={require('../assets/wheres-waldo-5e.jpg')}
+					src={require(`../assets/wheres-waldo-${props.scenery}.jpg`)}
 					alt=""
 					className="game-img"
 					onClick={tag}

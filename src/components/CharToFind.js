@@ -12,12 +12,12 @@ export default function CharToFind(props) {
 
 	return (
 		<li>
-			{props.name}
 			<img
 				src={img}
 				alt={props.name}
 				className="img-small"
-			/>
+				/>
+			{props.name}
 		</li>
 	);
 }

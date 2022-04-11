@@ -10,7 +10,7 @@ export default function Home() {
 					<Link to="/space">
 						<h3>Space</h3>
 						<img
-							src={require('../assets/wheres-waldo-5.jpg')}
+							src={require('../assets/wheres-waldo-space.jpg')}
 							className="level-image"
 							alt=""
 						/>
@@ -23,10 +23,10 @@ export default function Home() {
 					</ul>
 				</div>
 				<div className="level-tile">
-					<Link to="/convention">
-						<h3>Convention</h3>
+					<Link to="/mountain">
+						<h3>Mountain</h3>
 						<img
-							src={require('../assets/wheres-waldo-8.jpg')}
+							src={require('../assets/wheres-waldo-mountain.jpg')}
 							className="level-image"
 							alt=""
 						/>
@@ -42,7 +42,7 @@ export default function Home() {
 					<Link to="/beach">
 						<h3>Beach</h3>
 						<img
-							src={require('../assets/wheres-waldo-7.jpg')}
+							src={require('../assets/wheres-waldo-beach.jpg')}
 							className="level-image"
 							alt=""
 						/>
