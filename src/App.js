@@ -42,7 +42,3 @@ function App() {
 }
 
 export default App;
-
-// beach: 	odlaw x: 230-256 y: 465-570
-// 			waldo x: 510-550 y:460-540
-// 			wizard x: 610-640 y: 460-550

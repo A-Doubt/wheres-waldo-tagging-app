@@ -123,6 +123,7 @@ export default function GameLevel(props) {
 			name: name,
 			scenery: scenery,
 			length: length,
+			date: new Date().getTime(),
 		}
 		console.log(newEntry);
 		postScore(newEntry);
