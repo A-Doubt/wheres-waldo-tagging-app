@@ -4,15 +4,15 @@ import CharToFind from './CharToFind';
 import Popup from './Popup';
 import { db } from '../index';
 import { collection, addDoc } from 'firebase/firestore';
-import { nanoid } from 'nanoid'
-import { useNavigate } from "react-router-dom";
+import { nanoid } from 'nanoid';
+import { useNavigate } from 'react-router-dom';
 
 export default function GameLevel(props) {
 	const [popupVisible, setPopupVisible] = React.useState(false);
 	const [coords, setCoords] = React.useState({ x: null, y: null });
 	const [isFound, setIsFound] = React.useState({
-		waldo: true,
-		odlaw: true,
+		waldo: false,
+		odlaw: false,
 		wizard: false,
 	});
 	const [tileClicked, setTileClicked] = React.useState(null);
@@ -24,7 +24,6 @@ export default function GameLevel(props) {
 	let navigate = useNavigate();
 
 	// FIREBASE CODE SECTION
-	// console.log('DATABASE: ', db);
 	async function postScore(entry) {
 		try {
 			const docRef = await addDoc(collection(db, 'score'), entry);
@@ -47,7 +46,6 @@ export default function GameLevel(props) {
 			),
 		};
 		setTileClicked(gameTile);
-		console.log(gameTile);
 		setPopupVisible((prevState) => !prevState);
 	}
 
@@ -56,30 +54,24 @@ export default function GameLevel(props) {
 
 		if (
 			value === 'waldo' &&
-			props.waldo.x1 < tileClicked.x &&
-			tileClicked.x < props.waldo.x2 &&
-			props.waldo.y1 < tileClicked.y &&
-			tileClicked.y < props.waldo.y2
+			props.waldo.x1 < tileClicked.x && tileClicked.x < props.waldo.x2 &&
+			props.waldo.y1 < tileClicked.y && tileClicked.y < props.waldo.y2
 		) {
 			setIsFound((prevIsFound) => {
 				return { ...prevIsFound, waldo: true };
 			});
 		} else if (
 			value === 'odlaw' &&
-			props.odlaw.x1 < tileClicked.x &&
-			tileClicked.x < props.odlaw.x2 &&
-			props.odlaw.y1 < tileClicked.y &&
-			tileClicked.y < props.odlaw.y2
+			props.odlaw.x1 < tileClicked.x && tileClicked.x < props.odlaw.x2 &&
+			props.odlaw.y1 < tileClicked.y && tileClicked.y < props.odlaw.y2
 		) {
 			setIsFound((prevIsFound) => {
 				return { ...prevIsFound, odlaw: true };
 			});
 		} else if (
 			value === 'wizard' &&
-			props.wizard.x1 < tileClicked.x &&
-			tileClicked.x < props.wizard.x2 &&
-			props.wizard.y1 < tileClicked.y &&
-			tileClicked.y < props.wizard.y2
+			props.wizard.x1 < tileClicked.x && tileClicked.x < props.wizard.x2 &&
+			props.wizard.y1 < tileClicked.y && tileClicked.y < props.wizard.y2
 		) {
 			setIsFound((prevIsFound) => {
 				return { ...prevIsFound, wizard: true };
@@ -91,11 +83,9 @@ export default function GameLevel(props) {
 	const gameEnd = useRef(new Date().getTime());
 
 	React.useEffect(() => {
-		console.log(isFound);
 		if (isWin) return;
 		if (isFound.waldo && isFound.odlaw && isFound.wizard) {
 			gameEnd.current = new Date().getTime();
-			console.log('GRATZ!');
 			setIsWin(true);
 			setGratzPopupVisible(true);
 		}
@@ -108,8 +98,6 @@ export default function GameLevel(props) {
 				((gameEnd.current - gameStart.current) / 1000).toFixed(2)
 			)
 		);
-
-		console.log(gameLength);
 	}, [isWin, gameLength]);
 
 	function handleInputChange(e) {
@@ -117,17 +105,15 @@ export default function GameLevel(props) {
 	}
 
 	function handleAddScore(name, scenery, length) {
-
 		const newEntry = {
 			id: nanoid(),
 			name: name,
 			scenery: scenery,
 			length: length,
 			date: new Date().getTime(),
-		}
-		console.log(newEntry);
+		};
 		postScore(newEntry);
-		navigate("/leaderboards");
+		navigate('/leaderboards');
 	}
 
 	return (
